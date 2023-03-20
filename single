@@ -1,0 +1,35 @@
+OBJ_DIR := ./obj/
+LOGS_DIR:= ./logs/	
+SRC_DIR	:= ./
+I_FLAG 	:= -I/usr/include/
+CC 		:= g++
+CFLAGS  := -Wno-format -g -fsanitize=address
+CFLAGS_NO_SANITIZER := -Wno-format -g
+
+CRACK_EXE  := crack
+GRAPH_EXE  := graph
+
+GRAPH_SRC  := graph_module.cpp
+GRAPH_OBJ  := graph_module.o	
+
+SRC    :=  text_funcs.cpp crack.cpp
+OBJ    :=  text_funcs.o crack.o
+
+all : compile link run
+
+compile: 
+	@$(CC) -c $(I_FLAG) $(CFLAGS) $(GRAPH_SRC) $(GRAPH_EXE)
+
+link:
+	$(CC) $(GRAPH_OBJ) -o sfml-app -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+
+run:
+	./sfml-app	
+
+mkdir :
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(LOGS_DIR)
+
+clean :
+	@rm $(GRAPH_EXE) $(CRACK_EXE) 
+	@rm $(OBJ_DIR)*.o 

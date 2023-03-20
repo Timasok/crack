@@ -62,7 +62,7 @@ int textCtor(Text_info * text, const char * file_name)
 
 int textEdit(Text_info * text)
 {
-    printf("Choose crack mode\n\t1 - easy\n\t2 - hardcore\n");
+    printf("Choose crack mode\n\t2 - smoke\n\t1 - easy\n\t2 - hardcore\n");
 
     char answer;
     int symbol = getchar(); 
@@ -75,7 +75,10 @@ int textEdit(Text_info * text)
     while (getchar() != '\n')
         ;
 
-    if (answer == '1')
+    if (answer == '0')
+    {
+        
+    } else if (answer == '1')
     {
         int pass_len = 4;
         const char * old_password = "opa$";
