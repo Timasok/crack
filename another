@@ -1,0 +1,43 @@
+OBJ_DIR   := ./obj/
+LOGS_DIR  := ./logs/	
+GRAPH_DIR := ./graph/
+SRC_DIR	  := ./
+
+I_FLAG 	:= -I./ -I./graph/ -I/usr/include/
+CC 		:= g++
+CFLAGS  := -Wno-format -g -fsanitize=address
+CFLAGS_NO_SANITIZER := -Wno-format -g
+
+CRACK_EXE  := crack
+
+SRC    := $(wildcard $(SRC_DIR)*.cpp)
+OBJ    := $(patsubst $(SRC_DIR)%.cpp,  $(OBJ_DIR)%.o, $(SRC))
+
+GRAPH_SRC  := $(GRAPH_DIR)graph.cpp
+GRAPH_OBJ  := graph.o
+
+SFML_EXE   := sfml-app
+SFML_INC   := -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+
+# all: compile_graph link $(CRACK_EXE)
+all: compile_graph link
+# all: $(CRACK_EXE)
+
+compile_graph:
+	$(CC) -c $(GRAPH_SRC) $(I_FLAG)
+
+$(CRACK_EXE): $(OBJ) 
+	$(CC) $(I_FLAG) $(CFLAGS) $(OBJ) $(GRAPH_OBJ) -o $(CRACK_EXE)
+
+$(OBJ_DIR)%.o : $(SRC_DIR)%.cpp
+	$(CC) $(I_FLAG) -c $< -o $@
+
+link:
+	$(CC) $(OBJ) $(GRAPH_OBJ) -o $(SFML_EXE) $(SFML_INC)
+
+$(GRAPH_OBJ) : $(GRAPH_SRC)
+	$(CC) $(I_FLAG) -c $< -o $@
+
+clear:
+	@rm -f *.o
+	@rm $(CRACK_EXE) $(OBJ_DIR)*.o 

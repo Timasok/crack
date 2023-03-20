@@ -1,3 +1,4 @@
-#include <stdio.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 int picturePerfect();

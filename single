@@ -6,30 +6,37 @@ CC 		:= g++
 CFLAGS  := -Wno-format -g -fsanitize=address
 CFLAGS_NO_SANITIZER := -Wno-format -g
 
+SRC    := $(wildcard $(SRC_DIR)*.cpp)
+OBJ    := $(patsubst $(SRC_DIR)%.cpp,  $(OBJ_DIR)%.o, $(SRC))
+
 CRACK_EXE  := crack
 GRAPH_EXE  := graph
 
-GRAPH_SRC  := graph_module.cpp
-GRAPH_OBJ  := graph_module.o	
+SRC    := graph_module.cpp
+OBJ    := graph_module.o
 
-SRC    :=  text_funcs.cpp crack.cpp
-OBJ    :=  text_funcs.o crack.o
+all : compile_graph link run
 
-all : compile link run
+compile_graph: 
+	@$(CC) -c $(SRC) $(I_FLAG) $(CFLAGS) $(GRAPH_EXE)
 
-compile: 
-	@$(CC) -c $(I_FLAG) $(CFLAGS) $(GRAPH_SRC) $(GRAPH_EXE)
+# $(CRACK_EXE): $(OBJ) 
+# 	@$(CC) $(I_FLAG) $(CFLAGS) $(OBJ) -o $(CRACK_EXE)
+
+# $(OBJ_DIR)%.o : $(SRC_DIR)%.cpp
+# 	@$(CC) $(I_FLAG) -c $< -o $@
 
 link:
-	$(CC) $(GRAPH_OBJ) -o sfml-app -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+	@$(CC) $(OBJ) -o sfml-app -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 run:
-	./sfml-app	
+	./sfml-app
 
 mkdir :
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(LOGS_DIR)
 
 clean :
-	@rm $(GRAPH_EXE) $(CRACK_EXE) 
-	@rm $(OBJ_DIR)*.o 
+	@rm $(CRACK_EXE) $(OBJ_DIR)*.o 
+
+

@@ -1,9 +1,9 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
 #include "graph_module.h"
 
 using namespace sf;
+
+// int main()
+// {}
 
 int picturePerfect()
 {
